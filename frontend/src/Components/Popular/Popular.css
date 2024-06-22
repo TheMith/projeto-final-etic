@@ -1,0 +1,39 @@
+.popular{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    max-width: 1280px;
+    margin: auto;
+    background-color: #333; /* Adiciona fundo dark */
+}
+.popular h1{
+    color: #e0e0e0; /* Cor clara para o texto */
+    font-size: 40px;
+    font-weight: 600;
+}
+.popular hr{
+    width: 150px;
+    height: 4px;
+    border-radius: 10px;
+    background: #3a3a3a; /* Cor mais clara para o hr */
+}
+.popular-item{
+    margin-top: 40px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+}
+/* ---------- media query------------ */
+
+@media(max-width: 800px){
+    .popular h1{
+        font-size: 30px;
+    }
+    .popular hr{
+        width: 80px;
+        height: 4px;
+    }
+}
