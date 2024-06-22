@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Database Connection With MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://djsteve2277:lilicameel7@cluster0.rxrkxtv.mongodb.net/ecommerce");
 
 //Image Storage Engine 
 const storage = multer.diskStorage({
@@ -27,6 +27,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
     image_url: `/images/${req.file.filename}`
   })
 })
+
 
 // Route for Images folder
 app.use('/images', express.static('upload/images'));
