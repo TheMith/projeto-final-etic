@@ -7,7 +7,7 @@ const Shop = () => {
   const [newcollection, setNewCollection] = useState([]);
 
   const fetchInfo = () => { 
-    fetch('http://https://projeto-final-etic-api.onrender.com/newcollections') 
+    fetch('https://projeto-final-etic-api.onrender.com/newcollections') 
             .then((res) => res.json()) 
             .then((data) => setNewCollection(data))
     }
