@@ -7,7 +7,7 @@ import Footer from "./Components/Footer/Footer";
 import ShopCategory from "./Pages/ShopCategory";
 import LoginSignup from "./Pages/LoginSignup";
 
-export const backend_url = 'http://localhost:4000';
+export const backend_url = 'https://projeto-final-etic-api.onrender.com';
 export const currency = '€';
 
 function App() {
