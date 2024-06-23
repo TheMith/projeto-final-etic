@@ -14,118 +14,70 @@ const AddProduct = () => {
     old_price: ""
   });
 
-  const addProduct = async () => {
-    try {
-      let formData = new FormData();
-      formData.append('product', image);
+  const AddProduct = async () => {
+    if (!image) {
+      alert("Please upload an image");
+      return;
+    }
 
-      // Upload image first
-      const uploadResponse = await fetch(`${backend_url}/upload`, {
-        method: 'POST',
-        body: formData,
-      });
+    let dataObj;
+    let product = productDetails;
 
-      if (!uploadResponse.ok) {
-        throw new Error('Failed to upload image');
-      }
+    let formData = new FormData();
+    formData.append('product', image);
 
-      const uploadData = await uploadResponse.json();
+    await fetch(`${backend_url}/upload`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: formData,
+    }).then((resp) => resp.json())
+      .then((data) => { dataObj = data });
 
-      // Update product details with uploaded image URL
-      const updatedProduct = {
-        ...productDetails,
-        image: uploadData.image_url
-      };
-
-      // Add product with updated details
-      const addProductResponse = await fetch(`${backend_url}/addproduct`, {
+    if (dataObj.success) {
+      product.image = dataObj.image_url;
+      await fetch(`${backend_url}/addproduct`, {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedProduct),
-      });
+        body: JSON.stringify(product),
+      })
+        .then((resp) => resp.json())
+        .then((data) => { data.success ? alert("Product Added") : alert("Failed") });
 
-      if (!addProductResponse.ok) {
-        throw new Error('Failed to add product');
-      }
-
-      const addProductData = await addProductResponse.json();
-
-      // Handle success or show appropriate message to the user
-      if (addProductData.success) {
-        alert("Product Added Successfully");
-        // Reset form or navigate to product list page
-      } else {
-        alert("Failed to add product");
-      }
-
-    } catch (error) {
-      console.error('Error:', error.message);
-      alert("An error occurred while adding the product");
     }
-  };
+  }
 
-  const handleInputChange = (e) => {
+  const changeHandler = (e) => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+  }
 
   return (
     <div className="addproduct">
       <div className="addproduct-itemfield">
         <p>Product title</p>
-        <input
-          type="text"
-          name="name"
-          value={productDetails.name}
-          onChange={handleInputChange}
-          placeholder="Type here"
-        />
+        <input type="text" name="name" value={productDetails.name} onChange={(e) => { changeHandler(e) }} placeholder="Type here" />
       </div>
       <div className="addproduct-itemfield">
         <p>Product description</p>
-        <input
-          type="text"
-          name="description"
-          value={productDetails.description}
-          onChange={handleInputChange}
-          placeholder="Type here"
-        />
+        <input type="text" name="description" value={productDetails.description} onChange={(e) => { changeHandler(e) }} placeholder="Type here" />
       </div>
       <div className="addproduct-price">
         <div className="addproduct-itemfield">
           <p>Price</p>
-          <input
-            type="number"
-            name="old_price"
-            value={productDetails.old_price}
-            onChange={handleInputChange}
-            placeholder="Type here"
-          />
+          <input type="number" name="old_price" value={productDetails.old_price} onChange={(e) => { changeHandler(e) }} placeholder="Type here" />
         </div>
         <div className="addproduct-itemfield">
           <p>Offer Price</p>
-          <input
-            type="number"
-            name="new_price"
-            value={productDetails.new_price}
-            onChange={handleInputChange}
-            placeholder="Type here"
-          />
+          <input type="number" name="new_price" value={productDetails.new_price} onChange={(e) => { changeHandler(e) }} placeholder="Type here" />
         </div>
       </div>
       <div className="addproduct-itemfield">
         <p>Product category</p>
-        <select
-          name="category"
-          value={productDetails.category}
-          onChange={handleInputChange}
-          className="add-product-selector"
-        >
+        <select value={productDetails.category} name="category" className="add-product-selector" onChange={changeHandler}>
           <option value="cpu">CPU</option>
           <option value="gpu">GPU</option>
           <option value="ram">RAM</option>
@@ -134,22 +86,11 @@ const AddProduct = () => {
       <div className="addproduct-itemfield">
         <p>Product image</p>
         <label htmlFor="file-input">
-          <img
-            className="addproduct-thumbnail-img"
-            src={!image ? upload_area : URL.createObjectURL(image)}
-            alt=""
-          />
+          <img className="addproduct-thumbnail-img" src={!image ? upload_area : URL.createObjectURL(image)} alt="" />
         </label>
-        <input
-          type="file"
-          id="file-input"
-          name="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          hidden
-        />
+        <input onChange={(e) => setImage(e.target.files[0])} type="file" name="image" id="file-input" accept="image/*" hidden />
       </div>
-      <button className="addproduct-btn" onClick={addProduct}>ADD</button>
+      <button className="addproduct-btn" onClick={AddProduct}>ADD</button>
     </div>
   );
 };
