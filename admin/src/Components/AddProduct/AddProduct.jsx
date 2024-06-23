@@ -4,7 +4,8 @@ import upload_area from "../Assets/upload_area.svg";
 import { backend_url } from "../../App";
 
 const AddProduct = () => {
-  const [image, setImage] = useState(null);
+
+  const [image, setImage] = useState(false);
   const [productDetails, setProductDetails] = useState({
     name: "",
     description: "",
@@ -15,10 +16,6 @@ const AddProduct = () => {
   });
 
   const AddProduct = async () => {
-    if (!image) {
-      alert("Please upload an image");
-      return;
-    }
 
     let dataObj;
     let product = productDetails;
@@ -90,7 +87,7 @@ const AddProduct = () => {
         </label>
         <input onChange={(e) => setImage(e.target.files[0])} type="file" name="image" id="file-input" accept="image/*" hidden />
       </div>
-      <button className="addproduct-btn" onClick={AddProduct}>ADD</button>
+      <button className="addproduct-btn" onClick={() => { AddProduct() }}>ADD</button>
     </div>
   );
 };
