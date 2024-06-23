@@ -3,35 +3,32 @@ import "./CSS/ShopCategory.css";
 import Item from "../Components/Item/Item";
 
 const ShopCategory = (props) => {
-  const [allProducts, setAllProducts] = useState([]);
 
-  const fetchInfo = async () => {
-    try {
-      const response = await fetch('https://projeto-final-etic-api.onrender.com/allproducts');
-      const data = await response.json();
-      setAllProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
+  const [allproducts, setAllProducts] = useState([]);
+
+  const fetchInfo = () => { 
+    fetch('https://projeto-final-etic-api.onrender.com/allproducts')
+            .then((res) => res.json()) 
+            .then((data) => setAllProducts(data))
     }
-  };
 
-  useEffect(() => {
-    fetchInfo();
-  }, []);
-
+    useEffect(() => {
+      fetchInfo();
+    }, [])
+    
   return (
     <div className="shopcategory">
       <div className="shopcategory-products">
-        {allProducts.filter(item => item.category === props.category).map((item, i) => (
-          <Item 
-            id={item.id} 
-            key={i} 
-            name={item.name} 
-            image={item.image} 
-            new_price={item.new_price} 
-            old_price={item.old_price} 
-          />
-        ))}
+        {allproducts.map((item,i) => {
+            if(props.category===item.category)
+            {
+              return <Item id={item.id} key={i} name={item.name} image={item.image}  new_price={item.new_price} old_price={item.old_price}/>;
+            }
+            else
+            {
+              return null;
+            }
+        })}
       </div>
     </div>
   );
