@@ -9,7 +9,6 @@ const Footer = () => {
   return (
     <div className='footer'>
       <div className="footer-logo">
-        <img src={footer_logo} alt="" />
         <p>ETIC</p>
       </div>
       <div className="footer-social-icons">
