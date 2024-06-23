@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className='footer'>
       <div className="footer-logo">
-        <p>ETIC</p>
+        <p>ESTEVAM</p>
       </div>
       <div className="footer-social-icons">
         <div className="footer-icons-container">
